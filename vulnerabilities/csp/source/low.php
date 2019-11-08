@@ -1,22 +1,22 @@
 <?php
-$headerCSP = "Content-Security-Policy: script-src 'self';";
+
+$headerCSP = "Content-Security-Policy: script-src 'self' https://pastebin.com  example.com code.jquery.com https://ssl.google-analytics.com ;"; // allows js from self, pastebin.com, jquery and google analytics.
 
 header($headerCSP);
+
+# https://pastebin.com/raw/R570EE00
 
 ?>
 <?php
 if (isset ($_POST['include'])) {
 $page[ 'body' ] .= "
-	" . $_POST['include'] . "
+	<script src='" . $_POST['include'] . "'></script>
 ";
 }
 $page[ 'body' ] .= '
 <form name="csp" method="POST">
-	<p>The page makes a call to ' . DVWA_WEB_PAGE_TO_ROOT . '/vulnerabilities/csp/source/jsonp.php to load some code. Modify that page to run your own code.</p>
-	<p>1+2+3+4+5=<span id="answer"></span></p>
-	<input type="button" id="solve" value="Solve the sum" />
+	<p>You can include scripts from external sources, examine the Content Security Policy and enter a URL to include here:</p>
+	<input size="50" type="text" name="include" value="" id="include" />
+	<input type="submit" value="Include" />
 </form>
-
-<script src="source/high.js"></script>
 ';
-
